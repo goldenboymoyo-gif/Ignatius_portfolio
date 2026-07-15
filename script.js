@@ -12,7 +12,7 @@ const projects = [
     {img:"assets/proj-healingbalm.jpg", title:"The Healing Balm Foundation", cat:"print", label:"Print & Brochures", desc:"Awareness flyer for an NGO focused on gender justice and disability inclusion."},
     {img:"assets/proj-kawama.jpg", title:"Kawama Aka", cat:"packaging", label:"Packaging", desc:"Can design for an orange-flavoured soft drink."},
     {img:"assets/proj-eroyal.jpg", title:"E.Royal Modeling Management Org", cat:"branding", label:"Branding & Identity", desc:"Company profile cover design for a modeling management agency."},
-    {img:"assets/proj-menu.jpg", title:"Restaurant Food Menu", cat:"campaign", label:"Campaigns & Social", desc:"Promotional food menu flyer for a Mosi-oa-Tunya Road restaurant."},
+    {img:"assets/proj-menu.jpg", title:"Restaurant Food Menu", cat:"menu", label:"Menus", desc:"Promotional food menu flyer for a Mosi-oa-Tunya Road restaurant."},
     {img:"assets/proj-weekend.jpg", title:"Weekend Special Table Tent", cat:"campaign", label:"Campaigns & Social", desc:"In-restaurant table tent card promoting a weekend giveaway."},
   ];
 
