@@ -144,11 +144,18 @@ h1,h2,h3,h4{font-family:'Poppins',sans-serif;letter-spacing:-0.01em;}
   .main{margin-left:60px;padding:24px 20px;}
   .card-grid{grid-template-columns:1fr;}
 }
+.mobile-menu-btn{display:none;position:fixed;top:16px;left:16px;z-index:201;width:40px;height:40px;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:20px;cursor:pointer;align-items:center;justify-content:center;}
+.mobile-menu-btn:hover{border-color:var(--gold);}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99;}
 @media(max-width:640px){
-  .sidebar{display:none;}
-  .main{margin-left:0;padding:16px;}
+  .mobile-menu-btn{display:flex;}
+  .sidebar{transform:translateX(-100%);transition:transform .3s ease;z-index:100;}
+  .sidebar.open{transform:translateX(0);}
+  .sidebar-overlay.show{display:block;}
+  .main{margin-left:0;padding:60px 16px 16px;}
   .project-card{flex-direction:column;}
   .project-card .thumb{width:100%;height:160px;}
+  .main-header{flex-direction:column;gap:16px;align-items:flex-start;}
 }
 </style>
 </head>
@@ -165,6 +172,8 @@ h1,h2,h3,h4{font-family:'Poppins',sans-serif;letter-spacing:-0.01em;}
   </div>
 </div>
 
+<div class="mobile-menu-btn" id="mobile-menu-btn">☰</div>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
 <div class="dashboard" id="dashboard">
   <aside class="sidebar">
     <div class="sidebar-header">

@@ -57,6 +57,23 @@
     populateSettings();
   }
 
+  // --- MOBILE MENU ---
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const sidebarOverlay = document.getElementById('sidebar-overlay');
+  const sidebar = document.querySelector('.sidebar');
+
+  function closeMobileMenu() {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('show');
+  }
+
+  mobileMenuBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('show');
+  });
+
+  sidebarOverlay.addEventListener('click', closeMobileMenu);
+
   // --- Navigation ---
   document.querySelectorAll('.sidebar-nav a').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -66,6 +83,7 @@
       link.classList.add('active');
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById('section-' + section).classList.add('active');
+      closeMobileMenu();
     });
   });
 
