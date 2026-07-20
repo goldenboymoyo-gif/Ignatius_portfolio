@@ -118,6 +118,25 @@ a:hover{text-decoration:underline;}
   .exp-item .yr{float:none;}
   .contact-row{flex-direction:column;align-items:center;gap:8px;}
 }
+
+.vix-menu{background:linear-gradient(180deg,#0a0a0a 0%,#111 100%);padding:72px 24px 80px;border-bottom:1px solid rgba(200,169,106,0.25);}
+.vix-menu-header{text-align:center;margin-bottom:52px;}
+.vix-menu-header .vix-eyebrow{font-family:'Poppins',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.35em;text-transform:uppercase;color:#C8A96A;margin-bottom:10px;display:block;}
+.vix-menu-header h1{font-family:'Poppins',sans-serif;font-size:clamp(32px,5vw,48px);font-weight:700;color:#F3F1EC;letter-spacing:-0.01em;margin:0 0 10px;line-height:1.1;}
+.vix-menu-header h1 em{font-style:normal;color:#C8A96A;}
+.vix-menu-header .vix-tagline{font-size:15px;color:rgba(243,241,236,0.55);max-width:48ch;margin:0 auto;line-height:1.65;}
+.vix-menu-header .vix-divider{width:60px;height:2px;background:#C8A96A;margin:22px auto 0;border-radius:1px;}
+.vix-columns{display:grid;grid-template-columns:1fr 1fr;gap:48px 56px;max-width:960px;margin:0 auto;}
+.vix-category{margin-bottom:40px;}
+.vix-category-title{font-family:'Poppins',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:#C8A96A;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid rgba(200,169,106,0.2);}
+.vix-item{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;transition:background .2s;border-radius:4px;}
+.vix-item:hover{background:rgba(200,169,106,0.05);}
+.vix-item-name{font-size:15px;color:#F3F1EC;font-weight:500;}
+.vix-item-dots{flex:1;border-bottom:1px dotted rgba(200,169,106,0.2);margin:0 12px;min-width:20px;align-self:baseline;margin-bottom:4px;}
+.vix-item-price{font-size:15px;color:#C8A96A;font-weight:600;white-space:nowrap;}
+.vix-footer{text-align:center;margin-top:52px;padding-top:32px;border-top:1px solid rgba(200,169,106,0.15);}
+.vix-footer p{font-size:12px;color:rgba(243,241,236,0.35);letter-spacing:0.06em;}
+@media (max-width:700px){.vix-columns{grid-template-columns:1fr;gap:0;}.vix-menu{padding:48px 20px 56px;}}
 </style>
 </head>
 <body>
@@ -133,6 +152,78 @@ a:hover{text-decoration:underline;}
     </div>
   </div>
 </div>
+
+<!-- VIX Restaurant Menu -->
+<section class="vix-menu">
+  <div class="vix-menu-header">
+    <span class="vix-eyebrow">Victoria Falls · Zambia</span>
+    <h1>VIX <em>Menu</em></h1>
+    <p class="vix-tagline">Freshly prepared dishes and drinks, made with care and served with a smile.</p>
+    <div class="vix-divider"></div>
+  </div>
+  <div class="vix-columns">
+    <!-- Left Column -->
+    <div>
+      <div class="vix-category">
+        <div class="vix-category-title">Bar Snacks</div>
+        <div class="vix-item"><span class="vix-item-name">4 Beef Sliders</span><span class="vix-item-dots"></span><span class="vix-item-price">K100</span></div>
+        <div class="vix-item"><span class="vix-item-name">Samosas</span><span class="vix-item-dots"></span><span class="vix-item-price">K50</span></div>
+        <div class="vix-item"><span class="vix-item-name">Chicken Strips</span><span class="vix-item-dots"></span><span class="vix-item-price">K100</span></div>
+        <div class="vix-item"><span class="vix-item-name">Wings</span><span class="vix-item-dots"></span><span class="vix-item-price">K130</span></div>
+        <div class="vix-item"><span class="vix-item-name">Hungarian</span><span class="vix-item-dots"></span><span class="vix-item-price">K80</span></div>
+        <div class="vix-item"><span class="vix-item-name">Plain Chips</span><span class="vix-item-dots"></span><span class="vix-item-price">K40</span></div>
+        <div class="vix-item"><span class="vix-item-name">Small Salad</span><span class="vix-item-dots"></span><span class="vix-item-price">K30</span></div>
+        <div class="vix-item"><span class="vix-item-name">Chicken Salad</span><span class="vix-item-dots"></span><span class="vix-item-price">K120</span></div>
+        <div class="vix-item"><span class="vix-item-name">Coleslaw Salad</span><span class="vix-item-dots"></span><span class="vix-item-price">K50</span></div>
+        <div class="vix-item"><span class="vix-item-name">Chicken Kebab</span><span class="vix-item-dots"></span><span class="vix-item-price">K100</span></div>
+        <div class="vix-item"><span class="vix-item-name">Chicken Wrap</span><span class="vix-item-dots"></span><span class="vix-item-price">K80</span></div>
+      </div>
+      <div class="vix-category">
+        <div class="vix-category-title">Burgers</div>
+        <div class="vix-item"><span class="vix-item-name">Chicken Burger</span><span class="vix-item-dots"></span><span class="vix-item-price">K150</span></div>
+        <div class="vix-item"><span class="vix-item-name">Beef Burger</span><span class="vix-item-dots"></span><span class="vix-item-price">K150</span></div>
+        <div class="vix-item"><span class="vix-item-name">Monster Burger</span><span class="vix-item-dots"></span><span class="vix-item-price">K400</span></div>
+        <div class="vix-item"><span class="vix-item-name">Double Smash</span><span class="vix-item-dots"></span><span class="vix-item-price">K180</span></div>
+        <div class="vix-item"><span class="vix-item-name">Triple Smash</span><span class="vix-item-dots"></span><span class="vix-item-price">K200</span></div>
+      </div>
+    </div>
+    <!-- Right Column -->
+    <div>
+      <div class="vix-category">
+        <div class="vix-category-title">Platters</div>
+        <div class="vix-item"><span class="vix-item-name">Bar Plate</span><span class="vix-item-dots"></span><span class="vix-item-price">K190</span></div>
+        <div class="vix-item"><span class="vix-item-name">Platter for 2</span><span class="vix-item-dots"></span><span class="vix-item-price">K250</span></div>
+        <div class="vix-item"><span class="vix-item-name">Platter for 4</span><span class="vix-item-dots"></span><span class="vix-item-price">K450</span></div>
+        <div class="vix-item"><span class="vix-item-name">BBQ Platter</span><span class="vix-item-dots"></span><span class="vix-item-price">K680</span></div>
+      </div>
+      <div class="vix-category">
+        <div class="vix-category-title">Mains</div>
+        <div class="vix-item"><span class="vix-item-name">Hake Fish</span><span class="vix-item-dots"></span><span class="vix-item-price">K200</span></div>
+        <div class="vix-item"><span class="vix-item-name">Crumbed</span><span class="vix-item-dots"></span><span class="vix-item-price">K200</span></div>
+        <div class="vix-item"><span class="vix-item-name">1/4 Chicken</span><span class="vix-item-dots"></span><span class="vix-item-price">K120</span></div>
+        <div class="vix-item"><span class="vix-item-name">1/2 Chicken</span><span class="vix-item-dots"></span><span class="vix-item-price">K180</span></div>
+        <div class="vix-item"><span class="vix-item-name">Full Chicken</span><span class="vix-item-dots"></span><span class="vix-item-price">K280</span></div>
+        <div class="vix-item"><span class="vix-item-name">T-Bone</span><span class="vix-item-dots"></span><span class="vix-item-price">K230</span></div>
+        <div class="vix-item"><span class="vix-item-name">Pork Chops</span><span class="vix-item-dots"></span><span class="vix-item-price">K170</span></div>
+        <div class="vix-item"><span class="vix-item-name">Boerewors</span><span class="vix-item-dots"></span><span class="vix-item-price">K250 / K450</span></div>
+        <div class="vix-item"><span class="vix-item-name">Sausage</span><span class="vix-item-dots"></span><span class="vix-item-price">K200</span></div>
+      </div>
+      <div class="vix-category">
+        <div class="vix-category-title">Sides</div>
+        <div class="vix-item"><span class="vix-item-name">Nshima</span><span class="vix-item-dots"></span><span class="vix-item-price">K20</span></div>
+        <div class="vix-item"><span class="vix-item-name">Rice</span><span class="vix-item-dots"></span><span class="vix-item-price">K30</span></div>
+      </div>
+      <div class="vix-category">
+        <div class="vix-category-title">Tea &amp; Coffee</div>
+        <div class="vix-item"><span class="vix-item-name">Coffee</span><span class="vix-item-dots"></span><span class="vix-item-price">K60</span></div>
+        <div class="vix-item"><span class="vix-item-name">Tea</span><span class="vix-item-dots"></span><span class="vix-item-price">K50</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="vix-footer">
+    <p>All prices in Zambian Kwacha (K) &middot; Prices are subject to change without notice.</p>
+  </div>
+</section>
 
 <div class="page">
   <header class="resume-header">
