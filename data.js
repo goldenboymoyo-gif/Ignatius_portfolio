@@ -152,3 +152,36 @@ function getPortfolioData() {
 function savePortfolioData(data) {
   localStorage.setItem('portfolioData', JSON.stringify(data));
 }
+
+async function fetchPortfolioData() {
+  try {
+    const res = await fetch('/api/get-data');
+    if (res.ok) {
+      const serverData = await res.json();
+      if (serverData && typeof serverData === 'object' && serverData.hero) {
+        localStorage.setItem('portfolioData', JSON.stringify(serverData));
+        return serverData;
+      }
+    }
+  } catch (e) {}
+  return getPortfolioData();
+}
+
+async function savePortfolioDataToAPI(data, password) {
+  try {
+    const body = Object.assign({}, data, { _password: password });
+    const res = await fetch('/api/save-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (res.ok) {
+      localStorage.setItem('portfolioData', JSON.stringify(data));
+      return true;
+    }
+    return false;
+  } catch (e) {
+    localStorage.setItem('portfolioData', JSON.stringify(data));
+    return false;
+  }
+}

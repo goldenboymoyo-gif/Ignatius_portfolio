@@ -176,9 +176,7 @@
 <script src="data.js"></script>
 <script src="script.js"></script>
 <script>
-(function() {
-  const d = getPortfolioData();
-
+function applyPortfolioData(d) {
   document.title = d.site.title;
   document.querySelector('meta[name="description"]').content = d.site.description;
   document.querySelector('meta[property="og:image"]').content = d.site.ogImage;
@@ -299,7 +297,10 @@
   navBehance.href = d.contact.behance;
   const mobileBehance = document.getElementById('mobile-behance-link');
   mobileBehance.href = d.contact.behance;
-})();
+}
+
+window.applyPortfolioData = applyPortfolioData;
+applyPortfolioData(getPortfolioData());
 </script>
 
 </body>

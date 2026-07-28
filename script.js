@@ -1,6 +1,6 @@
-const data = getPortfolioData();
-const projects = data.work.projects;
 const grid = document.getElementById('portfolio-grid');
+let currentData = getPortfolioData();
+let projects = currentData.work.projects;
 
 function render(filter) {
   grid.innerHTML = "";
@@ -20,13 +20,18 @@ function render(filter) {
 }
 render('all');
 
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render(btn.dataset.filter);
+function attachFilterListeners() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(btn.dataset.filter);
+    });
   });
-});
+}
+attachFilterListeners();
+
+window.attachFilterListeners = attachFilterListeners;
 
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightbox-img');
@@ -109,3 +114,15 @@ if (heroPortrait && heroPortraitImg && !prefersReducedMotion && window.matchMedi
     heroPortraitImg.style.transform = 'scale(1) rotateY(0deg) rotateX(0deg)';
   });
 }
+
+fetchPortfolioData().then(serverData => {
+  currentData = serverData;
+  projects = serverData.work.projects;
+  render('all');
+  if (typeof window.applyPortfolioData === 'function') {
+    window.applyPortfolioData(serverData);
+  }
+  if (typeof window.attachFilterListeners === 'function') {
+    window.attachFilterListeners();
+  }
+});

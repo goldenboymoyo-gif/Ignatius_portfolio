@@ -47,8 +47,8 @@
   checkAuth();
 
   // --- Data ---
-  function loadData() {
-    data = getPortfolioData();
+  async function loadData() {
+    data = await fetchPortfolioData();
     populateHero();
     populateAbout();
     populateWork();
@@ -146,14 +146,14 @@
     renderStats();
   });
 
-  document.getElementById('save-hero').addEventListener('click', () => {
+  document.getElementById('save-hero').addEventListener('click', async () => {
     data.hero.eyebrow = document.getElementById('hero-eyebrow').value;
     data.hero.headline = document.getElementById('hero-headline').value;
     data.hero.lede = document.getElementById('hero-lede').value;
     data.hero.portrait = document.getElementById('hero-portrait').value;
     data.hero.tag = document.getElementById('hero-tag').value;
-    savePortfolioData(data);
-    showToast('Hero section saved!', 'success');
+    const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+    showToast(ok ? 'Hero section saved & synced!' : 'Hero saved locally (sync failed)', ok ? 'success' : 'error');
   });
 
   // --- ABOUT ---
@@ -241,11 +241,11 @@
     });
   });
 
-  document.getElementById('save-about').addEventListener('click', () => {
+  document.getElementById('save-about').addEventListener('click', async () => {
     data.about.eyebrow = document.getElementById('about-eyebrow').value;
     data.about.headline = document.getElementById('about-headline').value;
-    savePortfolioData(data);
-    showToast('About section saved!', 'success');
+    const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+    showToast(ok ? 'About section saved & synced!' : 'About saved locally (sync failed)', ok ? 'success' : 'error');
   });
 
   // --- WORK ---
@@ -400,12 +400,12 @@
     showToast(editingProjectIndex >= 0 ? 'Project updated!' : 'Project added!', 'success');
   });
 
-  document.getElementById('save-work').addEventListener('click', () => {
+  document.getElementById('save-work').addEventListener('click', async () => {
     data.work.eyebrow = document.getElementById('work-eyebrow').value;
     data.work.headline = document.getElementById('work-headline').value;
     data.work.description = document.getElementById('work-desc').value;
-    savePortfolioData(data);
-    showToast('Work section saved!', 'success');
+    const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+    showToast(ok ? 'Work section saved & synced!' : 'Work saved locally (sync failed)', ok ? 'success' : 'error');
   });
 
   // --- EXPERIENCE ---
@@ -530,11 +530,11 @@
     if (e.key === 'Enter') document.getElementById('add-featured-client-btn').click();
   });
 
-  document.getElementById('save-experience').addEventListener('click', () => {
+  document.getElementById('save-experience').addEventListener('click', async () => {
     data.experience.eyebrow = document.getElementById('exp-eyebrow').value;
     data.experience.headline = document.getElementById('exp-headline').value;
-    savePortfolioData(data);
-    showToast('Experience section saved!', 'success');
+    const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+    showToast(ok ? 'Experience saved & synced!' : 'Experience saved locally (sync failed)', ok ? 'success' : 'error');
   });
 
   // --- CONTACT ---
@@ -550,7 +550,7 @@
     document.getElementById('contact-card-desc').value = data.contact.cardDescription;
   }
 
-  document.getElementById('save-contact').addEventListener('click', () => {
+  document.getElementById('save-contact').addEventListener('click', async () => {
     data.contact.eyebrow = document.getElementById('contact-eyebrow').value;
     data.contact.headline = document.getElementById('contact-headline').value;
     data.contact.description = document.getElementById('contact-desc').value;
@@ -560,8 +560,8 @@
     data.contact.location = document.getElementById('contact-location').value;
     data.contact.cardTitle = document.getElementById('contact-card-title').value;
     data.contact.cardDescription = document.getElementById('contact-card-desc').value;
-    savePortfolioData(data);
-    showToast('Contact section saved!', 'success');
+    const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+    showToast(ok ? 'Contact saved & synced!' : 'Contact saved locally (sync failed)', ok ? 'success' : 'error');
   });
 
   // --- SETTINGS ---
@@ -575,7 +575,7 @@
     document.getElementById('footer-email').value = data.footer.email;
   }
 
-  document.getElementById('save-settings').addEventListener('click', () => {
+  document.getElementById('save-settings').addEventListener('click', async () => {
     data.site.title = document.getElementById('site-title').value;
     data.site.description = document.getElementById('site-desc').value;
     data.site.ogImage = document.getElementById('site-og').value;
@@ -583,8 +583,8 @@
     data.footer.copyright = document.getElementById('footer-copyright').value;
     data.footer.behance = document.getElementById('footer-behance').value;
     data.footer.email = document.getElementById('footer-email').value;
-    savePortfolioData(data);
-    showToast('Settings saved!', 'success');
+    const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+    showToast(ok ? 'Settings saved & synced!' : 'Settings saved locally (sync failed)', ok ? 'success' : 'error');
   });
 
   // --- EXPORT / IMPORT / RESET ---
@@ -603,17 +603,17 @@
     document.getElementById('import-file').click();
   });
 
-  document.getElementById('import-file').addEventListener('change', (e) => {
+  document.getElementById('import-file').addEventListener('change', async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = (ev) => {
+    reader.onload = async (ev) => {
       try {
         const imported = JSON.parse(ev.target.result);
         data = imported;
-        savePortfolioData(data);
+        const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
         loadData();
-        showToast('Data imported successfully!', 'success');
+        showToast(ok ? 'Data imported & synced!' : 'Data imported locally (sync failed)', ok ? 'success' : 'error');
       } catch (err) {
         showToast('Invalid JSON file.', 'error');
       }
@@ -622,12 +622,12 @@
     e.target.value = '';
   });
 
-  document.getElementById('reset-btn').addEventListener('click', () => {
+  document.getElementById('reset-btn').addEventListener('click', async () => {
     if (confirm('Reset all data to defaults? This cannot be undone.')) {
       data = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
-      savePortfolioData(data);
+      const ok = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
       loadData();
-      showToast('Data reset to defaults.', 'success');
+      showToast(ok ? 'Data reset & synced.' : 'Data reset locally (sync failed)', ok ? 'success' : 'error');
     }
   });
 
