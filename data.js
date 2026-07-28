@@ -175,12 +175,16 @@ async function savePortfolioDataToAPI(data, password) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-    if (res.ok) {
+    const result = await res.json();
+    if (res.ok && result.ok) {
       localStorage.setItem('portfolioData', JSON.stringify(data));
       return true;
     }
+    console.error('Save failed:', res.status, result);
+    localStorage.setItem('portfolioData', JSON.stringify(data));
     return false;
   } catch (e) {
+    console.error('Save fetch error:', e);
     localStorage.setItem('portfolioData', JSON.stringify(data));
     return false;
   }

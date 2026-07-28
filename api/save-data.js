@@ -1,6 +1,6 @@
-import { kv } from '@vercel/kv';
+const { kv } = require('@vercel/kv');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
@@ -10,7 +10,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    const body = await req.json();
+    const chunks = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
+    }
+    const raw = Buffer.concat(chunks).toString();
+    const body = JSON.parse(raw);
 
     if (!body || typeof body !== 'object') {
       return res.status(400).json({ error: 'Invalid data' });
@@ -26,10 +31,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({ ok: true });
   } catch (err) {
-    return res.status(500).json({ error: 'Failed to save data' });
+    console.error('KV save error:', err.message);
+    return res.status(500).json({ error: 'Failed to save data', detail: err.message });
   }
-}
-
-export const config = {
-  runtime: 'edge',
 };
