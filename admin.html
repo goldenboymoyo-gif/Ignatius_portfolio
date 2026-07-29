@@ -524,9 +524,9 @@ h1,h2,h3,h4{font-family:'Poppins',sans-serif;letter-spacing:-0.01em;}
         <h3 style="color:var(--gold-2);">Publish Changes to Live Site</h3>
         <p style="font-size:13px;color:var(--ink-dim);margin-bottom:16px;">Make edits in any section, then click Publish to commit changes to GitHub. The live site auto-updates in about a minute.</p>
         <div class="form-group">
-          <label>GitHub Token</label>
-          <input type="password" id="github-token" placeholder="ghp_... or github_pat_...">
-          <div class="hint">Create at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" style="color:var(--gold-2);">github.com/settings/tokens</a> (classic token, repo scope). Saved in your browser.</div>
+          <label>GitHub Token <span class="token-saved" style="display:none;color:var(--green);font-weight:normal;text-transform:none;letter-spacing:0;">✓ Saved in browser</span></label>
+          <input type="password" id="github-token" placeholder="Paste your GitHub token here">
+          <div class="hint">Need one? <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" style="color:var(--gold-2);">Generate a token</a> (classic, repo scope) — paste it once, it's saved automatically.</div>
         </div>
         <button class="btn btn-primary" id="publish-btn">Publish to GitHub</button>
         <span id="publish-status" style="margin-left:12px;font-size:13px;"></span>

@@ -609,6 +609,20 @@
   const publishBtn = document.getElementById('publish-btn');
   const githubTokenInput = document.getElementById('github-token');
   const publishStatus = document.getElementById('publish-status');
+  const TOKEN_STORAGE_KEY = 'githubToken';
+
+  const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
+  if (savedToken) {
+    githubTokenInput.value = savedToken;
+    document.querySelector('.token-saved').style.display = 'inline';
+  }
+
+  githubTokenInput.addEventListener('input', () => {
+    if (githubTokenInput.value.trim()) {
+      localStorage.setItem(TOKEN_STORAGE_KEY, githubTokenInput.value.trim());
+      document.querySelector('.token-saved').style.display = 'inline';
+    }
+  });
 
   publishBtn.addEventListener('click', async () => {
     const token = githubTokenInput.value.trim();
@@ -622,8 +636,7 @@
     publishBtn.disabled = false;
     publishBtn.textContent = 'Publish to GitHub';
     if (result.ok) {
-      showToast('Published! Site will update in ~1 min', 'success');
-      githubTokenInput.value = '';
+      showToast('Published! Site updates in ~1 min', 'success');
     } else {
       showToast('Publish failed: ' + result.error, 'error');
     }
