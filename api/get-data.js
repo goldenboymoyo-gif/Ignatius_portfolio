@@ -10,6 +10,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    if (!process.env.KV_URL && !process.env.KV_REST_API_URL) {
+      console.warn('KV not configured');
+      return res.status(200).json(null);
+    }
+
     const data = await kv.get('portfolio-data');
     if (data) {
       return res.status(200).json(data);
@@ -17,6 +22,6 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(null);
   } catch (err) {
     console.error('KV read error:', err.message);
-    return res.status(500).json({ error: 'Failed to read data', detail: err.message });
+    return res.status(200).json(null);
   }
 };

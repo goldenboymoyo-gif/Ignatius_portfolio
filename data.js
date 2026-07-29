@@ -153,7 +153,11 @@ function savePortfolioData(data) {
   localStorage.setItem('portfolioData', JSON.stringify(data));
 }
 
-async function fetchPortfolioData() {
+function fetchPortfolioData() {
+  return Promise.resolve(getPortfolioData());
+}
+
+async function syncFromAPI() {
   try {
     const res = await fetch('/api/get-data');
     if (res.ok) {
@@ -164,10 +168,11 @@ async function fetchPortfolioData() {
       }
     }
   } catch (e) {}
-  return getPortfolioData();
+  return null;
 }
 
 async function savePortfolioDataToAPI(data, password) {
+  savePortfolioData(data);
   try {
     const body = Object.assign({}, data, { _password: password });
     const res = await fetch('/api/save-data', {
@@ -177,15 +182,12 @@ async function savePortfolioDataToAPI(data, password) {
     });
     const result = await res.json();
     if (res.ok && result.ok) {
-      localStorage.setItem('portfolioData', JSON.stringify(data));
       return true;
     }
-    console.error('Save failed:', res.status, result);
-    localStorage.setItem('portfolioData', JSON.stringify(data));
+    console.warn('API sync failed:', res.status, result);
     return false;
   } catch (e) {
-    console.error('Save fetch error:', e);
-    localStorage.setItem('portfolioData', JSON.stringify(data));
+    console.warn('API sync unavailable:', e.message);
     return false;
   }
 }

@@ -115,14 +115,16 @@ if (heroPortrait && heroPortraitImg && !prefersReducedMotion && window.matchMedi
   });
 }
 
-fetchPortfolioData().then(serverData => {
-  currentData = serverData;
-  projects = serverData.work.projects;
-  render('all');
-  if (typeof window.applyPortfolioData === 'function') {
-    window.applyPortfolioData(serverData);
-  }
-  if (typeof window.attachFilterListeners === 'function') {
-    window.attachFilterListeners();
+syncFromAPI().then(serverData => {
+  if (serverData) {
+    currentData = serverData;
+    projects = currentData.work.projects;
+    render('all');
+    if (typeof window.applyPortfolioData === 'function') {
+      window.applyPortfolioData(currentData);
+    }
+    if (typeof window.attachFilterListeners === 'function') {
+      window.attachFilterListeners();
+    }
   }
 });
