@@ -1,5 +1,3 @@
-const { kv } = require('@vercel/kv');
-
 module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
@@ -10,8 +8,27 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    if (!process.env.KV_URL && !process.env.KV_REST_API_URL) {
-      console.warn('KV not configured');
+    let kv;
+    try {
+      kv = require('@vercel/kv').kv;
+    } catch (e1) {
+      try {
+        const { Redis } = require('@upstash/redis');
+        const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+        const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+        if (url && token) {
+          kv = new Redis({ url, token });
+        } else {
+          const singleUrl = process.env.KV_URL || process.env.UPSTASH_REDIS_URL;
+          if (singleUrl) {
+            kv = new Redis({ url: singleUrl });
+          }
+        }
+      } catch (e2) {}
+    }
+
+    if (!kv) {
+      console.warn('Redis/KV not configured');
       return res.status(200).json(null);
     }
 
