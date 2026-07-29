@@ -522,13 +522,14 @@ h1,h2,h3,h4{font-family:'Poppins',sans-serif;letter-spacing:-0.01em;}
       </div>
       <div class="card" style="border-color:var(--gold);">
         <h3 style="color:var(--gold-2);">Publish Changes to Live Site</h3>
-        <p style="font-size:13px;color:var(--ink-dim);margin-bottom:12px;">Changes are saved in your browser. To publish them to the live site:</p>
-        <ol style="font-size:13px;color:var(--ink-dim);margin:0 0 16px 18px;line-height:1.8;">
-          <li>Click <strong>Export JSON</strong> above to download your data</li>
-          <li>Send the downloaded <code>.json</code> file to the developer</li>
-          <li>They'll update the defaults and deploy — the site updates instantly</li>
-        </ol>
-        <p style="font-size:12px;color:var(--ink-dim2);">Or export the file yourself and commit it to the GitHub repo to trigger a Vercel redeploy.</p>
+        <p style="font-size:13px;color:var(--ink-dim);margin-bottom:16px;">Make edits in any section, then click Publish to commit changes to GitHub. The live site auto-updates in about a minute.</p>
+        <div class="form-group">
+          <label>GitHub Token</label>
+          <input type="password" id="github-token" placeholder="ghp_... or github_pat_...">
+          <div class="hint">Create at <a href="https://github.com/settings/tokens" target="_blank" rel="noopener" style="color:var(--gold-2);">github.com/settings/tokens</a> (classic token, repo scope). Saved in your browser.</div>
+        </div>
+        <button class="btn btn-primary" id="publish-btn">Publish to GitHub</button>
+        <span id="publish-status" style="margin-left:12px;font-size:13px;"></span>
       </div>
     </div>
   </main>

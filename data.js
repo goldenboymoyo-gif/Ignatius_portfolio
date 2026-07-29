@@ -157,6 +157,33 @@ function fetchPortfolioData() {
   return getPortfolioData();
 }
 
+function fetchPublishedData() {
+  return fetch('/data.json')
+    .then(r => r.ok ? r.json() : null)
+    .then(d => {
+      if (d && d.hero) {
+        localStorage.setItem('portfolioData', JSON.stringify(d));
+        return d;
+      }
+      return null;
+    })
+    .catch(() => null);
+}
+
 function savePortfolioDataToAPI(data) {
   savePortfolioData(data);
+}
+
+async function publishToGitHub(data, githubToken) {
+  const body = Object.assign({}, data, {
+    _password: 'crsmedia2026',
+    _github_token: githubToken
+  });
+  const res = await fetch('/api/publish', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const result = await res.json();
+  return { ok: res.ok && result.ok, error: result.error || result.detail };
 }

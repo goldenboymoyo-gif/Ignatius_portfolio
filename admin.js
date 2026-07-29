@@ -55,6 +55,17 @@
     populateExperience();
     populateContact();
     populateSettings();
+    fetchPublishedData().then(published => {
+      if (published) {
+        data = published;
+        populateHero();
+        populateAbout();
+        populateWork();
+        populateExperience();
+        populateContact();
+        populateSettings();
+      }
+    });
   }
 
   // --- MOBILE MENU ---
@@ -592,6 +603,30 @@
     data.footer.email = document.getElementById('footer-email').value;
     savePortfolioDataToAPI(data);
     showToast('Settings saved!', 'success');
+  });
+
+  // --- PUBLISH ---
+  const publishBtn = document.getElementById('publish-btn');
+  const githubTokenInput = document.getElementById('github-token');
+  const publishStatus = document.getElementById('publish-status');
+
+  publishBtn.addEventListener('click', async () => {
+    const token = githubTokenInput.value.trim();
+    if (!token) {
+      showToast('Enter your GitHub token first', 'error');
+      return;
+    }
+    publishBtn.disabled = true;
+    publishBtn.textContent = 'Publishing...';
+    const result = await publishToGitHub(data, token);
+    publishBtn.disabled = false;
+    publishBtn.textContent = 'Publish to GitHub';
+    if (result.ok) {
+      showToast('Published! Site will update in ~1 min', 'success');
+      githubTokenInput.value = '';
+    } else {
+      showToast('Publish failed: ' + result.error, 'error');
+    }
   });
 
   // --- EXPORT / IMPORT / RESET ---

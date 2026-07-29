@@ -121,3 +121,17 @@ if (typeof window.applyPortfolioData === 'function') {
 if (typeof window.attachFilterListeners === 'function') {
   window.attachFilterListeners();
 }
+
+fetchPublishedData().then(published => {
+  if (published) {
+    currentData = published;
+    projects = currentData.work.projects;
+    render('all');
+    if (typeof window.applyPortfolioData === 'function') {
+      window.applyPortfolioData(currentData);
+    }
+    if (typeof window.attachFilterListeners === 'function') {
+      window.attachFilterListeners();
+    }
+  }
+});
