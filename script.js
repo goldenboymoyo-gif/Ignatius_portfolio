@@ -115,16 +115,9 @@ if (heroPortrait && heroPortraitImg && !prefersReducedMotion && window.matchMedi
   });
 }
 
-syncFromAPI().then(serverData => {
-  if (serverData) {
-    currentData = serverData;
-    projects = currentData.work.projects;
-    render('all');
-    if (typeof window.applyPortfolioData === 'function') {
-      window.applyPortfolioData(currentData);
-    }
-    if (typeof window.attachFilterListeners === 'function') {
-      window.attachFilterListeners();
-    }
-  }
-});
+if (typeof window.applyPortfolioData === 'function') {
+  window.applyPortfolioData(currentData);
+}
+if (typeof window.attachFilterListeners === 'function') {
+  window.attachFilterListeners();
+}

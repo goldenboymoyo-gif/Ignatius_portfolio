@@ -44,30 +44,10 @@
     location.reload();
   });
 
-  // --- Cloud Sync Status ---
-  const statusDot = document.getElementById('sync-status-dot');
-  const statusText = document.getElementById('sync-status-text');
-  async function checkSyncStatus() {
-    try {
-      const res = await fetch('/api/get-data');
-      if (res.ok) {
-        statusDot.className = 'sync-dot connected';
-        statusText.textContent = 'Cloud connected';
-      } else {
-        statusDot.className = 'sync-dot offline';
-        statusText.textContent = 'Cloud offline';
-      }
-    } catch (e) {
-      statusDot.className = 'sync-dot offline';
-      statusText.textContent = 'Cloud offline';
-    }
-  }
-  setTimeout(checkSyncStatus, 2000);
-
   checkAuth();
 
   // --- Data ---
-  async function loadData() {
+  function loadData() {
     data = fetchPortfolioData();
     populateHero();
     populateAbout();
@@ -75,17 +55,6 @@
     populateExperience();
     populateContact();
     populateSettings();
-    syncFromAPI().then(serverData => {
-      if (serverData) {
-        data = serverData;
-        populateHero();
-        populateAbout();
-        populateWork();
-        populateExperience();
-        populateContact();
-        populateSettings();
-      }
-    });
   }
 
   // --- MOBILE MENU ---
@@ -177,14 +146,14 @@
     renderStats();
   });
 
-  document.getElementById('save-hero').addEventListener('click', async () => {
+  document.getElementById('save-hero').addEventListener('click', () => {
     data.hero.eyebrow = document.getElementById('hero-eyebrow').value;
     data.hero.headline = document.getElementById('hero-headline').value;
     data.hero.lede = document.getElementById('hero-lede').value;
     data.hero.portrait = document.getElementById('hero-portrait').value;
     data.hero.tag = document.getElementById('hero-tag').value;
-    const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
-    showToast('Hero section saved' + (synced ? ' & synced to cloud' : ''), 'success');
+    savePortfolioDataToAPI(data);
+    showToast('Hero section saved!', 'success');
   });
 
   // --- ABOUT ---
@@ -272,11 +241,11 @@
     });
   });
 
-  document.getElementById('save-about').addEventListener('click', async () => {
+  document.getElementById('save-about').addEventListener('click', () => {
     data.about.eyebrow = document.getElementById('about-eyebrow').value;
     data.about.headline = document.getElementById('about-headline').value;
-    const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
-    showToast('About section saved' + (synced ? ' & synced to cloud' : ''), 'success');
+    savePortfolioDataToAPI(data);
+    showToast('About section saved!', 'success');
   });
 
   // --- WORK ---
@@ -438,12 +407,12 @@
     showToast(editingProjectIndex >= 0 ? 'Project updated!' : 'Project added!', 'success');
   });
 
-  document.getElementById('save-work').addEventListener('click', async () => {
+  document.getElementById('save-work').addEventListener('click', () => {
     data.work.eyebrow = document.getElementById('work-eyebrow').value;
     data.work.headline = document.getElementById('work-headline').value;
     data.work.description = document.getElementById('work-desc').value;
-    const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
-    showToast('Work section saved' + (synced ? ' & synced to cloud' : ''), 'success');
+    savePortfolioDataToAPI(data);
+    showToast('Work section saved!', 'success');
   });
 
   // --- EXPERIENCE ---
@@ -568,11 +537,11 @@
     if (e.key === 'Enter') document.getElementById('add-featured-client-btn').click();
   });
 
-  document.getElementById('save-experience').addEventListener('click', async () => {
+  document.getElementById('save-experience').addEventListener('click', () => {
     data.experience.eyebrow = document.getElementById('exp-eyebrow').value;
     data.experience.headline = document.getElementById('exp-headline').value;
-    const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
-    showToast('Experience section saved' + (synced ? ' & synced to cloud' : ''), 'success');
+    savePortfolioDataToAPI(data);
+    showToast('Experience section saved!', 'success');
   });
 
   // --- CONTACT ---
@@ -588,7 +557,7 @@
     document.getElementById('contact-card-desc').value = data.contact.cardDescription;
   }
 
-  document.getElementById('save-contact').addEventListener('click', async () => {
+  document.getElementById('save-contact').addEventListener('click', () => {
     data.contact.eyebrow = document.getElementById('contact-eyebrow').value;
     data.contact.headline = document.getElementById('contact-headline').value;
     data.contact.description = document.getElementById('contact-desc').value;
@@ -598,8 +567,8 @@
     data.contact.location = document.getElementById('contact-location').value;
     data.contact.cardTitle = document.getElementById('contact-card-title').value;
     data.contact.cardDescription = document.getElementById('contact-card-desc').value;
-    const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
-    showToast('Contact section saved' + (synced ? ' & synced to cloud' : ''), 'success');
+    savePortfolioDataToAPI(data);
+    showToast('Contact section saved!', 'success');
   });
 
   // --- SETTINGS ---
@@ -613,7 +582,7 @@
     document.getElementById('footer-email').value = data.footer.email;
   }
 
-  document.getElementById('save-settings').addEventListener('click', async () => {
+  document.getElementById('save-settings').addEventListener('click', () => {
     data.site.title = document.getElementById('site-title').value;
     data.site.description = document.getElementById('site-desc').value;
     data.site.ogImage = document.getElementById('site-og').value;
@@ -621,8 +590,8 @@
     data.footer.copyright = document.getElementById('footer-copyright').value;
     data.footer.behance = document.getElementById('footer-behance').value;
     data.footer.email = document.getElementById('footer-email').value;
-    const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
-    showToast('Settings saved' + (synced ? ' & synced to cloud' : ''), 'success');
+    savePortfolioDataToAPI(data);
+    showToast('Settings saved!', 'success');
   });
 
   // --- EXPORT / IMPORT / RESET ---
@@ -645,13 +614,13 @@
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = async (ev) => {
+    reader.onload = (ev) => {
       try {
         const imported = JSON.parse(ev.target.result);
         data = imported;
-        const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+        savePortfolioDataToAPI(data);
         loadData();
-        showToast('Data imported' + (synced ? ' & synced to cloud' : ''), 'success');
+        showToast('Data imported!', 'success');
       } catch (err) {
         showToast('Invalid JSON file.', 'error');
       }
@@ -660,12 +629,12 @@
     e.target.value = '';
   });
 
-  document.getElementById('reset-btn').addEventListener('click', async () => {
+  document.getElementById('reset-btn').addEventListener('click', () => {
     if (confirm('Reset all data to defaults? This cannot be undone.')) {
       data = JSON.parse(JSON.stringify(DEFAULT_PORTFOLIO_DATA));
-      const synced = await savePortfolioDataToAPI(data, ADMIN_PASSWORD);
+      savePortfolioDataToAPI(data);
       loadData();
-      showToast('Data reset' + (synced ? ' & synced to cloud' : ''), 'success');
+      showToast('Data reset to defaults!', 'success');
     }
   });
 

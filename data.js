@@ -154,40 +154,9 @@ function savePortfolioData(data) {
 }
 
 function fetchPortfolioData() {
-  return Promise.resolve(getPortfolioData());
+  return getPortfolioData();
 }
 
-async function syncFromAPI() {
-  try {
-    const res = await fetch('/api/get-data');
-    if (res.ok) {
-      const serverData = await res.json();
-      if (serverData && typeof serverData === 'object' && serverData.hero) {
-        localStorage.setItem('portfolioData', JSON.stringify(serverData));
-        return serverData;
-      }
-    }
-  } catch (e) {}
-  return null;
-}
-
-async function savePortfolioDataToAPI(data, password) {
+function savePortfolioDataToAPI(data) {
   savePortfolioData(data);
-  try {
-    const body = Object.assign({}, data, { _password: password });
-    const res = await fetch('/api/save-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    const result = await res.json();
-    if (res.ok && result.ok) {
-      return true;
-    }
-    console.warn('API sync failed:', res.status, result);
-    return false;
-  } catch (e) {
-    console.warn('API sync unavailable:', e.message);
-    return false;
-  }
 }
