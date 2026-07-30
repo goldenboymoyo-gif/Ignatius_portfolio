@@ -12,7 +12,7 @@ const DEFAULT_PORTFOLIO_DATA = {
     tag: "CRS Media FX — Creative Studio",
     ctas: [
       { text: "View My Work", href: "#work", style: "primary" },
-      { text: "See Full Behance Portfolio", href: "https://www.behance.net/ignatiuscrs5", style: "outline", external: true },
+      { text: "See Full Behance Portfolio", href: "https://www.behance.net/ignatiuscrs", style: "outline", external: true },
       { text: "Download CV", href: "resume.html", style: "outline" }
     ]
   },
