@@ -119,14 +119,14 @@ const DEFAULT_PORTFOLIO_DATA = {
     description: "Whether it's a brand identity, a product package, or a full marketing campaign — I'd love to help bring it to life.",
     email: "ignatiuscrs5@gmail.com",
     phone: "+260 979 645 122 · +260 954 157 963",
-    behance: "https://www.behance.net/ignatiuscrs5",
+    behance: "https://www.behance.net/ignatiuscrs",
     location: "Livingstone, Zambia",
     cardTitle: "Start a project",
     cardDescription: "Send a brief and I'll get back to you with a quote and timeline."
   },
   footer: {
     copyright: "© 2026 Ignatius Simfukwe — CRS Media FX. All work shown is original design produced for real clients.",
-    behance: "https://www.behance.net/ignatiuscrs5",
+    behance: "https://www.behance.net/ignatiuscrs",
     email: "ignatiuscrs5@gmail.com"
   },
   site: {
